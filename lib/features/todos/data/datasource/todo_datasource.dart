@@ -1,4 +1,5 @@
-import '../../../core/database/powersync.dart';
+import 'package:powersync_core/powersync_core.dart';
+
 import '../../domain/entity/todo.dart';
 
 class TodoDatasource {
