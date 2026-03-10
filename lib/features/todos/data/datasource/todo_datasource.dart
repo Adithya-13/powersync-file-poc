@@ -24,10 +24,10 @@ class TodoDatasource {
   }
 
   Future<void> toggleTodo(String id, bool completed) async {
-    await database.execute(
-      'UPDATE todos SET completed = ? WHERE id = ?',
-      [completed ? 1 : 0, id],
-    );
+    await database.execute('UPDATE todos SET completed = ? WHERE id = ?', [
+      completed ? 1 : 0,
+      id,
+    ]);
   }
 
   Future<void> deleteTodo(String id) async {
@@ -35,11 +35,11 @@ class TodoDatasource {
   }
 
   Todo _rowToTodo(Map<String, dynamic> row) => Todo(
-        id: row['id'] as String,
-        createdBy: row['created_by'] as String,
-        description: row['description'] as String,
-        completed: (row['completed'] as int) == 1,
-        photoId: row['photo_id'] as String?,
-        createdAt: DateTime.parse(row['created_at'] as String),
-      );
+    id: row['id'] as String,
+    createdBy: row['created_by'] as String,
+    description: row['description'] as String,
+    completed: (row['completed'] as int) == 1,
+    photoId: row['photo_id'] as String?,
+    createdAt: DateTime.parse(row['created_at'] as String),
+  );
 }
