@@ -768,6 +768,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.0"
+  powersync_attachments_helper:
+    dependency: "direct main"
+    description:
+      name: powersync_attachments_helper
+      sha256: "2e39452cc301c345d5cc07c47d3dff09d1d3f04063e8728bb3e70685d3cca998"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.20+1"
   powersync_core:
     dependency: "direct main"
     description:
