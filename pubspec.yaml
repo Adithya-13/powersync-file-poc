@@ -33,6 +33,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   powersync_core: ^1.8.0
+  powersync_attachments_helper: ^0.6.20
   supabase_flutter: ^2.0.0
   flutter_riverpod: ^2.0.0
   riverpod_annotation: ^2.0.0

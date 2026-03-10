@@ -22,13 +22,12 @@ class Todo {
     bool? completed,
     String? photoId,
     DateTime? createdAt,
-  }) =>
-      Todo(
-        id: id ?? this.id,
-        createdBy: createdBy ?? this.createdBy,
-        description: description ?? this.description,
-        completed: completed ?? this.completed,
-        photoId: photoId ?? this.photoId,
-        createdAt: createdAt ?? this.createdAt,
-      );
+  }) => Todo(
+    id: id ?? this.id,
+    createdBy: createdBy ?? this.createdBy,
+    description: description ?? this.description,
+    completed: completed ?? this.completed,
+    photoId: photoId ?? this.photoId,
+    createdAt: createdAt ?? this.createdAt,
+  );
 }
