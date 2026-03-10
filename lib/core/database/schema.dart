@@ -8,4 +8,14 @@ const todos = Table('todos', [
   Column.text('created_at'),
 ]);
 
-final schema = Schema([todos]);
+// Local-only attachments queue table (not synced to remote)
+const attachments = Table.localOnly('attachments', [
+  Column.text('filename'),
+  Column.text('local_uri'),
+  Column.integer('timestamp'),
+  Column.integer('size'),
+  Column.text('media_type'),
+  Column.integer('state'),
+]);
+
+final schema = Schema([todos, attachments]);
