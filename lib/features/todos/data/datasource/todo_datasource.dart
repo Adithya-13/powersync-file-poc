@@ -7,20 +7,20 @@ class TodoDatasource {
 
   TodoDatasource(this.database);
 
-  Future<List<Todo>> getTodos() async {
-    // TODO: Implement fetching todos from PowerSync
-    return [];
+  Stream<List<Todo>> watchTodos() {
+    // TODO: implement via db.watch('SELECT * FROM todos ORDER BY created_at DESC')
+    return const Stream.empty();
   }
 
-  Future<void> createTodo(String title) async {
-    // TODO: Implement creating todo in PowerSync
+  Future<void> addTodo(String description, String createdBy) async {
+    // TODO: implement via db.execute('INSERT INTO todos ...')
   }
 
-  Future<void> updateTodo(String id, bool completed) async {
-    // TODO: Implement updating todo in PowerSync
+  Future<void> toggleTodo(String id, bool completed) async {
+    // TODO: implement via db.execute('UPDATE todos SET completed = ? WHERE id = ?')
   }
 
   Future<void> deleteTodo(String id) async {
-    // TODO: Implement deleting todo in PowerSync
+    // TODO: implement via db.execute('DELETE FROM todos WHERE id = ?')
   }
 }

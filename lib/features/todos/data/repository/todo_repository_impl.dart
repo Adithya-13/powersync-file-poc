@@ -8,14 +8,15 @@ class TodoRepositoryImpl implements TodoRepository {
   TodoRepositoryImpl(this.datasource);
 
   @override
-  Future<List<Todo>> getTodos() => datasource.getTodos();
+  Stream<List<Todo>> watchTodos() => datasource.watchTodos();
 
   @override
-  Future<void> createTodo(String title) => datasource.createTodo(title);
+  Future<void> addTodo(String description, String createdBy) =>
+      datasource.addTodo(description, createdBy);
 
   @override
-  Future<void> updateTodo(String id, bool completed) =>
-      datasource.updateTodo(id, completed);
+  Future<void> toggleTodo(String id, bool completed) =>
+      datasource.toggleTodo(id, completed);
 
   @override
   Future<void> deleteTodo(String id) => datasource.deleteTodo(id);
