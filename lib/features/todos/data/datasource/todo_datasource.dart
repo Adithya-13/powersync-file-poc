@@ -53,6 +53,26 @@ class TodoDatasource {
     );
   }
 
+  Future<void> deletePhoto(String todoId) async {
+    final result = await database.get(
+      'SELECT photo_id FROM todos WHERE id = ?',
+      [todoId],
+    );
+    if (result['photo_id'] == null) return;
+
+    final photoId = result['photo_id'] as String;
+
+    await attachmentQueue.deleteFile(
+      attachmentId: photoId,
+      updateHook: (tx, attachment) async {
+        await tx.execute(
+          'UPDATE todos SET photo_id = NULL WHERE id = ?',
+          [todoId],
+        );
+      },
+    );
+  }
+
   Todo _rowToTodo(Map<String, dynamic> row) => Todo(
     id: row['id'] as String,
     createdBy: row['created_by'] as String,
