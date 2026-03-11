@@ -48,6 +48,10 @@ class _TodosPageState extends ConsumerState<TodosPage> {
     await ref.read(addTodoPhotoUseCaseProvider).call(todoId, imageFile);
   }
 
+  Future<void> _deletePhoto(String todoId) async {
+    await ref.read(deleteTodoPhotoUseCaseProvider).call(todoId);
+  }
+
   Future<void> _runAction(
     BuildContext context,
     Future<void> Function() action,
@@ -126,6 +130,10 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       ),
                       onAttachPhoto: () =>
                           _runAction(context, () => _attachPhoto(todo.id)),
+                      onDeletePhoto: () => _runAction(
+                        context,
+                        () => _deletePhoto(todo.id),
+                      ),
                     );
                   },
                 );

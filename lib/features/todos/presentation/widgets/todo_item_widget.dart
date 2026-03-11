@@ -13,6 +13,7 @@ class TodoItemWidget extends StatelessWidget {
   final Future<void> Function(bool completed) onToggle;
   final Future<void> Function() onDelete;
   final Future<void> Function() onAttachPhoto;
+  final Future<void> Function() onDeletePhoto;
 
   const TodoItemWidget({
     required this.todo,
@@ -20,6 +21,7 @@ class TodoItemWidget extends StatelessWidget {
     required this.onToggle,
     required this.onDelete,
     required this.onAttachPhoto,
+    required this.onDeletePhoto,
     super.key,
   });
 
@@ -77,13 +79,36 @@ class TodoItemWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 48, right: 8, bottom: 8),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.file(
-                    File(localPhotoPath),
-                    width: 120,
-                    height: 120,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, error, stackTrace) =>
-                        const SizedBox.shrink(),
+                  child: Stack(
+                    children: [
+                      Image.file(
+                        File(localPhotoPath),
+                        width: 120,
+                        height: 120,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, error, stackTrace) =>
+                            const SizedBox.shrink(),
+                      ),
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: IconButton.filled(
+                          onPressed: onDeletePhoto,
+                          icon: const Icon(Icons.close),
+                          iconSize: 20,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 32,
+                            minHeight: 32,
+                          ),
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.black54,
+                            foregroundColor: Colors.white,
+                          ),
+                          tooltip: 'Remove photo',
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
