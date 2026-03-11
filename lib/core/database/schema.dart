@@ -16,6 +16,8 @@ const attachments = Table.localOnly('attachments', [
   Column.integer('size'),
   Column.text('media_type'),
   Column.integer('state'),
+  Column.integer('has_synced'),
+  Column.text('meta_data'),
 ]);
 
 final schema = Schema([todos, attachments]);
