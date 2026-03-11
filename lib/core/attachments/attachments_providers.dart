@@ -7,11 +7,17 @@ import 'package:powersync_core/attachments/io.dart';
 import 'package:powersync_core/powersync_core.dart';
 
 import '../database/powersync.dart';
+import 'attachment_error_handler.dart';
 import 'supabase_storage_adapter.dart';
 
 final supabaseStorageAdapterProvider = Provider<SupabaseStorageAdapter>(
   (_) => SupabaseStorageAdapter(),
 );
+
+final attachmentErrorHandlerProvider = Provider<AppAttachmentErrorHandler>((ref) {
+  final db = ref.watch(powerSyncDbProvider);
+  return AppAttachmentErrorHandler(db: db);
+});
 
 StreamSubscription<void>? _attachmentStateSubscription;
 final Map<String, AttachmentState> _lastAttachmentStates = {};
@@ -19,10 +25,12 @@ final Map<String, AttachmentState> _lastAttachmentStates = {};
 final attachmentQueueProvider = Provider<AttachmentQueue>((ref) {
   final db = ref.watch(powerSyncDbProvider);
   final remoteStorage = ref.watch(supabaseStorageAdapterProvider);
+  final errorHandler = ref.watch(attachmentErrorHandlerProvider);
 
   return AttachmentQueue(
     db: db,
     remoteStorage: remoteStorage,
+    errorHandler: errorHandler,
     localStorage: IOLocalStorage(attachmentsDirectory),
     watchAttachments: () => db
         .watch('SELECT photo_id as id FROM todos WHERE photo_id IS NOT NULL')
