@@ -8,28 +8,16 @@ class SupabaseStorageAdapter implements RemoteStorage {
 
   SupabaseClient get _client => Supabase.instance.client;
 
-  String? get _userId => _client.auth.currentUser?.id;
-
-  String _attachmentPath(Attachment attachment) {
-    final userId = _userId;
+  String get _userId {
+    final userId = _client.auth.currentUser?.id;
     if (userId == null) {
-      throw StateError('User must be signed in before syncing attachments.');
+      throw StateError('No authenticated user available for attachment sync');
     }
-    return '$userId/${attachment.filename}';
+    return userId;
   }
 
-  Future<Uint8List> _collectBytes(Stream<Uint8List> stream) async {
-    final chunks = await stream.toList();
-    final totalLength = chunks.fold<int>(0, (sum, chunk) => sum + chunk.length);
-    final bytes = Uint8List(totalLength);
-
-    var offset = 0;
-    for (final chunk in chunks) {
-      bytes.setRange(offset, offset + chunk.length, chunk);
-      offset += chunk.length;
-    }
-
-    return bytes;
+  String _attachmentPath(Attachment attachment) {
+    return '$_userId/${attachment.filename}';
   }
 
   @override
@@ -61,5 +49,13 @@ class SupabaseStorageAdapter implements RemoteStorage {
   Future<void> deleteFile(Attachment attachment) async {
     final path = _attachmentPath(attachment);
     await _client.storage.from(_bucket).remove([path]);
+  }
+
+  Future<Uint8List> _collectBytes(Stream<Uint8List> chunks) async {
+    final builder = BytesBuilder(copy: false);
+    await for (final chunk in chunks) {
+      builder.add(chunk);
+    }
+    return builder.takeBytes();
   }
 }

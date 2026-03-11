@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+
 import '../../domain/entity/todo.dart';
 import '../../domain/repository/todo_repository.dart';
 import '../datasource/todo_datasource.dart';
@@ -20,4 +22,8 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<void> deleteTodo(String id) => datasource.deleteTodo(id);
+
+  @override
+  Future<void> attachPhoto(String todoId, XFile imageFile) =>
+      datasource.attachPhoto(todoId, imageFile);
 }
