@@ -9,6 +9,7 @@ import '../../domain/entity/todo.dart';
 import '../../domain/repository/todo_repository.dart';
 import '../../domain/usecase/add_todo_photo_usecase.dart';
 import '../../domain/usecase/add_todo_usecase.dart';
+import '../../domain/usecase/delete_todo_photo_usecase.dart';
 import '../../domain/usecase/delete_todo_usecase.dart';
 import '../../domain/usecase/toggle_todo_usecase.dart';
 import '../../domain/usecase/watch_todos_usecase.dart';
@@ -34,6 +35,10 @@ final addTodoUseCaseProvider = Provider<AddTodoUseCase>((ref) {
 
 final addTodoPhotoUseCaseProvider = Provider<AddTodoPhotoUseCase>((ref) {
   return AddTodoPhotoUseCase(ref.watch(todoRepositoryProvider));
+});
+
+final deleteTodoPhotoUseCaseProvider = Provider<DeleteTodoPhotoUseCase>((ref) {
+  return DeleteTodoPhotoUseCase(ref.watch(todoRepositoryProvider));
 });
 
 final toggleTodoUseCaseProvider = Provider<ToggleTodoUseCase>((ref) {
