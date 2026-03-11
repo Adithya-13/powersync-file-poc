@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+import 'package:powersync_core/attachments/attachments.dart';
 import 'package:powersync_core/powersync_core.dart';
 import 'package:uuid/uuid.dart';
 
@@ -5,9 +7,10 @@ import '../../domain/entity/todo.dart';
 
 class TodoDatasource {
   final PowerSyncDatabase database;
+  final AttachmentQueue attachmentQueue;
   static const _uuid = Uuid();
 
-  TodoDatasource(this.database);
+  TodoDatasource(this.database, this.attachmentQueue);
 
   Stream<List<Todo>> watchTodos() {
     return database
@@ -32,6 +35,22 @@ class TodoDatasource {
 
   Future<void> deleteTodo(String id) async {
     await database.execute('DELETE FROM todos WHERE id = ?', [id]);
+  }
+
+  Future<void> attachPhoto(String todoId, XFile imageFile) async {
+    final bytes = await imageFile.readAsBytes();
+
+    await attachmentQueue.saveFile(
+      data: Stream.value(bytes),
+      mediaType: 'image/jpeg',
+      fileExtension: 'jpg',
+      updateHook: (tx, attachment) async {
+        await tx.execute('UPDATE todos SET photo_id = ? WHERE id = ?', [
+          attachment.id,
+          todoId,
+        ]);
+      },
+    );
   }
 
   Todo _rowToTodo(Map<String, dynamic> row) => Todo(
