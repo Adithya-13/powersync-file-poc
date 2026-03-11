@@ -26,4 +26,7 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<void> attachPhoto(String todoId, XFile imageFile) =>
       datasource.attachPhoto(todoId, imageFile);
+
+  @override
+  Future<void> deletePhoto(String todoId) => datasource.deletePhoto(todoId);
 }

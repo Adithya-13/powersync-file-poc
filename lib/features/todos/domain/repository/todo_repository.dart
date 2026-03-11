@@ -8,4 +8,5 @@ abstract class TodoRepository {
   Future<void> toggleTodo(String id, bool completed);
   Future<void> deleteTodo(String id);
   Future<void> attachPhoto(String todoId, XFile imageFile);
+  Future<void> deletePhoto(String todoId);
 }
