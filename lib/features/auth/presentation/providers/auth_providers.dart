@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/attachments/attachment_queue_provider.dart';
 import '../../../../core/database/powersync.dart';
 import '../../data/datasource/auth_datasource.dart';
 
@@ -14,6 +15,8 @@ final authInitProvider = FutureProvider<User>((ref) async {
   await openDatabase();
   final user = await datasource.ensureSignedIn();
   await connectDatabase();
+  final attachmentQueue = await ref.read(attachmentQueueProvider.future);
+  await attachmentQueue.startSync();
   return user;
 });
 
