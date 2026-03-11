@@ -36,6 +36,7 @@ class TodoItemWidget extends StatelessWidget {
     final localPhotoPath = _localPhotoPath;
     final isUploading = attachment?.state == AttachmentState.queuedUpload;
     final isSynced = attachment?.state == AttachmentState.synced;
+    final isDownloading = attachment?.state == AttachmentState.queuedDownload;
 
     return Card(
       child: Padding(
@@ -84,6 +85,32 @@ class TodoItemWidget extends StatelessWidget {
                     errorBuilder: (_, error, stackTrace) =>
                         const SizedBox.shrink(),
                   ),
+                ),
+              ),
+            if (isDownloading)
+              const Padding(
+                padding: EdgeInsets.only(left: 48, right: 8, bottom: 8),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Downloading photo...',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+            if (todo.photoId == null)
+              const Padding(
+                padding: EdgeInsets.only(left: 48, right: 8, bottom: 8),
+                child: Opacity(
+                  opacity: 0.5,
+                  child: Icon(Icons.photo_size_select_large_outlined, size: 48),
                 ),
               ),
             Padding(
