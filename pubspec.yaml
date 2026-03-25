@@ -33,6 +33,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   powersync_core: ^1.8.0
+  powersync_flutter_libs: ^0.4.15+1
   powersync_attachments_helper: ^0.6.20
   supabase_flutter: ^2.0.0
   flutter_riverpod: ^2.0.0
@@ -40,6 +41,7 @@ dependencies:
   image_picker: ^1.1.0
   path: ^1.9.0
   path_provider: ^2.0.0
+  sqlite3_flutter_libs: ^0.5.41
   uuid: ^4.0.0
   flutter_dotenv: ^5.0.0
 

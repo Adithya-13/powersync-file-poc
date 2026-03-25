@@ -784,6 +784,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  powersync_flutter_libs:
+    dependency: "direct main"
+    description:
+      name: powersync_flutter_libs
+      sha256: "3836fd9b4f351aae3229eed1fb0346a2dffa9151792c90f83682e6508ff4df0b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.15+1"
   pub_semver:
     dependency: transitive
     description:
@@ -957,6 +965,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.9.4"
+  sqlite3_flutter_libs:
+    dependency: "direct main"
+    description:
+      name: sqlite3_flutter_libs
+      sha256: eeb9e3a45207649076b808f8a5a74d68770d0b7f26ccef6d5f43106eee5375ad
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.42"
   sqlite3_web:
     dependency: transitive
     description:
