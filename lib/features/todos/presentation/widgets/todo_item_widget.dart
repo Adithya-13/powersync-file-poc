@@ -33,12 +33,27 @@ class TodoItemWidget extends StatelessWidget {
     return path.join(attachmentsDirectory.path, localUri);
   }
 
+  Color? get _badgeColor {
+    switch (attachment?.state) {
+      case AttachmentState.queuedUpload:
+      case AttachmentState.queuedDownload:
+        return Colors.orange;
+      case AttachmentState.queuedDelete:
+        return Colors.red;
+      case AttachmentState.synced:
+      case AttachmentState.archived:
+      case null:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final localPhotoPath = _localPhotoPath;
     final isUploading = attachment?.state == AttachmentState.queuedUpload;
     final isSynced = attachment?.state == AttachmentState.synced;
     final isDownloading = attachment?.state == AttachmentState.queuedDownload;
+    final badgeColor = _badgeColor;
 
     return Card(
       child: Padding(
@@ -108,6 +123,23 @@ class TodoItemWidget extends StatelessWidget {
                           tooltip: 'Remove photo',
                         ),
                       ),
+                      if (badgeColor != null)
+                        Positioned(
+                          bottom: 6,
+                          left: 6,
+                          child: Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: badgeColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1.5,
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),

@@ -69,3 +69,22 @@ final attachmentsProvider = StreamProvider<Map<String, Attachment>>((ref) {
         return attachmentsById;
       });
 });
+
+/// Maps each [AttachmentState] to its count across all attachments.
+final queueSummaryProvider = StreamProvider<Map<AttachmentState, int>>((ref) {
+  final db = ref.watch(powerSyncDbProvider);
+  return db
+      .watch('''
+    SELECT state, COUNT(*) as count
+    FROM ${AttachmentsQueueTable.defaultTableName}
+    GROUP BY state
+  ''')
+      .map((results) {
+        final counts = <AttachmentState, int>{};
+        for (final row in results) {
+          final state = AttachmentState.fromInt(row['state'] as int);
+          counts[state] = row['count'] as int;
+        }
+        return counts;
+      });
+});
