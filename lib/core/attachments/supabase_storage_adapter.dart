@@ -8,16 +8,8 @@ class SupabaseStorageAdapter implements RemoteStorage {
 
   SupabaseClient get _client => Supabase.instance.client;
 
-  String get _userId {
-    final userId = _client.auth.currentUser?.id;
-    if (userId == null) {
-      throw StateError('No authenticated user available for attachment sync');
-    }
-    return userId;
-  }
-
   String _attachmentPath(Attachment attachment) {
-    return '$_userId/${attachment.filename}';
+    return attachment.filename;
   }
 
   @override
