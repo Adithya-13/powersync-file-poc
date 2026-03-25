@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:powersync_core/attachments/attachments.dart';
 
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../providers/todos_providers.dart';
@@ -66,13 +67,47 @@ class _TodosPageState extends ConsumerState<TodosPage> {
     }
   }
 
+  String? _buildQueueSummary(Map<AttachmentState, int>? counts) {
+    if (counts == null || counts.isEmpty) return null;
+    final uploading = counts[AttachmentState.queuedUpload] ?? 0;
+    final downloading = counts[AttachmentState.queuedDownload] ?? 0;
+    final deleting = counts[AttachmentState.queuedDelete] ?? 0;
+
+    final parts = <String>[];
+    if (uploading > 0) parts.add('$uploading uploading');
+    if (downloading > 0) parts.add('$downloading downloading');
+    if (deleting > 0) parts.add('$deleting deleting');
+
+    return parts.isEmpty ? null : parts.join(', ');
+  }
+
   @override
   Widget build(BuildContext context) {
     final todosAsync = ref.watch(todosProvider);
     final attachmentsById = ref.watch(attachmentsProvider).valueOrNull ?? {};
+    final queueCounts = ref.watch(queueSummaryProvider).valueOrNull;
+    final queueSummary = _buildQueueSummary(queueCounts);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Todos')),
+      appBar: AppBar(
+        title: const Text('Todos'),
+        bottom: queueSummary != null
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(20),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    queueSummary,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimary.withValues(alpha: 0.8),
+                        ),
+                  ),
+                ),
+              )
+            : null,
+      ),
       body: Column(
         children: [
           Padding(
