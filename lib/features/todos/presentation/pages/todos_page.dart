@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:powersync_core/attachments/attachments.dart';
 
+import '../../../../features/debug/debug_screen.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../providers/todos_providers.dart';
 import '../widgets/todo_item_widget.dart';
@@ -91,6 +93,19 @@ class _TodosPageState extends ConsumerState<TodosPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todos'),
+        actions: [
+          if (kDebugMode)
+            IconButton(
+              icon: const Icon(Icons.bug_report_outlined),
+              tooltip: 'Attachment Debug',
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => const DebugScreen(),
+                ),
+              ),
+            ),
+        ],
         bottom: queueSummary != null
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(20),
